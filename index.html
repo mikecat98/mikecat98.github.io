@@ -18,15 +18,20 @@ body{
  </head>
 
  <h1>Queens Hack</h1>
- <body>
+ <body id='body'>
    <div id='messagesDiv'></div>
    <input type='text' id='nameInput' placeholder='Name'>
    <input type='text' id='messageInput' placeholder='Message'>
    <script>
      var myDataRef = new Firebase('https://queens-hack.firebaseio.com/');
-     var timestamp = new Date();
 
-
+      $('body').load( function(d=new Day){
+      if(d.getHours==2){
+       myDataRef.on('child_added', function(snapshot) {
+       myDataRef.child(snapshot.key()).remove();
+       });
+     }
+     });
      $('#messageInput').keypress(function (e) {
        if (e.keyCode == 13) {
          var name = $('#nameInput').val();
@@ -41,13 +46,8 @@ body{
      });
      function displayChatMessage(name, text) {
        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-       $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-       timestamp.setDate(timestamp.getDate()-2);
-       myDataRef.endAt(timestamp).on("child_added", function(snap) {
-       snap.ref().remove();
-}); 
-
-     };
+       $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;        
+     }
    </script>
  </body>
 </html>
