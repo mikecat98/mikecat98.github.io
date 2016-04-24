@@ -4,10 +4,15 @@
 
 h1 {
    text-align: center;
-   color:#FCB914;
+   
+}
+h2 {
+   text-align: center;
+   color:white
 }
 body{
   text-align: center;
+  background-color: #FCB914
 }
 </style>
 
@@ -17,28 +22,40 @@ body{
    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
  </head>
 
- <h1>Queens Hack</h1>
- <body id='body'>
+ <h1><img src = "https://queenshack.nyc/img/qnslogo.svg" height = "100"</h1>
+ <h2>Queens Hack </h2>
+ <body>
    <div id='messagesDiv'></div>
+
+   
    <input type='text' id='nameInput' placeholder='Name'>
+  
    <input type='text' id='messageInput' placeholder='Message'>
+
    <script>
      var myDataRef = new Firebase('https://queens-hack.firebaseio.com/');
+   
+     var d = new Date();
+     var n = d.getHours();
+     var t = d.getMinutes();
 
-      $('body').load( function(d=new Day){
-      if(d.getHours==2){
-       myDataRef.on('child_added', function(snapshot) {
-       myDataRef.child(snapshot.key()).remove();
-       });
-     }
-     });
+   if(n==0 && t==0){
+     myDataRef.on('child_added', function(snapshot) {
+     myDataRef.child(snapshot.key()).remove();
+     
+   
+   });
+}
+
      $('#messageInput').keypress(function (e) {
        if (e.keyCode == 13) {
          var name = $('#nameInput').val();
          var text = $('#messageInput').val();
-         myDataRef.push({name: name, text: text});
+        
+         myDataRef.push({ name: name, text: text});
          $('#messageInput').val('');
        }
+
      });
      myDataRef.on('child_added', function(snapshot) {
        var message = snapshot.val();
@@ -46,8 +63,11 @@ body{
      });
      function displayChatMessage(name, text) {
        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-       $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;        
-     }
+       $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+
+     
+     };
+
    </script>
  </body>
 </html>
